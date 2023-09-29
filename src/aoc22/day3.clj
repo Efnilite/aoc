@@ -1,0 +1,66 @@
+(ns day3
+  (:require [clojure.string :as str]))
+
+; Day 3 / #1 =====================================================================================================================
+
+;; array of all rucksacks
+(def rucksacks (str/split-lines "JppMDcJPcQbqGqFb\nZStgnHtsSjGBhqFbBmsm\ndjzzwgHHggdnfwjtMPDPMGpPlNfpLDll\ndRCtwtlCSttPtlNPNtgvPrDqmBsjGSpjBBsJsqqmrp\nZhWnZhzMMfnWWTDzBrmsmjsBccJB\nTFQMrZrMfZrLZZnLQdlvNdCgdHPlCllHNF\nPVddPnZWDDPqmHZzqVPzqdHdMRMJjQtvmvjvtTQQtlRtbbQl\nfsNswFpChpNwfgtMvCbjTRJBbtRj\nSFgfSMShLcsLgNMFhpwShFFZPHqZGZPqHdzPZHZcdzDDqd\ndHffzCqSfJCCzCPvdcpzRrBDDBSBBBMtthDDrFMT\nbVsZbsrgbWshBTFtDTtZTD\nslWGNbNWgWwnmNnwgnlGjdJJdPHcvcrcHjqPzdqPvp\nvBFBzGvGBvjFpGWcvCCvBvGPPhZbgLhMnhrPgFgPFgLLPF\ndVlslfdJNVJJmQQwdNRNwLZZZrrqhbPbZndpdgMhLP\nHJRHJpNJlVmftHfNQNRsHmmGCtGWjGDDTvCzcjWDStvcvT\ncVQzCCCpVVjgHsNwwFRqSRSRRtNH\nPWfhfPhbWWdWllPDdTvdbnvhLJLLMJFTSNwJtMRwJLqJJNMq\nDnfblllPbDrbWmbdPFdvlhdgQzzZZzQgcpcsZGcGQQgcpr\nhdFnnrdLnJRrZMzVlMbrwZvz\nTgfjGCcfsqfqqBfRMPDVvVVvTZRPbP\nqQqffcGStBSCQcsqCCBRjGqWhHFptFdnhNLmhnLWmphLLt\nWHPqWhLWHBMqddCdtDRwStDSwgnw\nrfCfZTmvpvvpFVfFrbvTbvcgtwgtStntggwbSJttgJtwgw\nfpQFsmfFmfZcrFCMhWNQWLCzhhCM\nzdqqJHDWwqNNZjQSmtdjpmfnjj\nGFBcPfBLPThcTcLRbpTQQjpTQrjSnQjlvn\nMFVLcsPVbPcRGfVPFRgDzJsHZNDCZNCNZsHg\nWQdMhlmQMwfZlQdgdHfddvtzmbJbcsctbBJqqcvqzB\nrSTrDDCSSGRCnnSGwwzJsbBvJsCCttccsvsz\nVnFwDrNwPwVSDrLgjfZZdMQFMWgljQ\nrJNjBLNQjvLQjFFLQJCFTvGWlRRgfGWDWlCDzlGnRRWG\ntMMhShhwhbgplflwDlnnnzDH\nZcSZVMSqshhQBQqQvqQgjJ\nbtTtWGbvtcvHHccdNRhHdl\nTDzqLPSqBzqVSldPddHhhNNlRQ\njBLDqDgZZBzJJmsbWjppmmpTWw\nLLDTRRfTwZRGZfDCRTwRsVHsVFBVZVlmVFBFlFJl\nQjWpQrzQcbhfMqrVVHVPFslFVpVmHH\nhqhzqMfNvjvMMzhdRDdCwGDSSdnvRn\njmMdNCLjLmJPtHtSHhSVVJ\npDBqgBgCvbfGBBbCGHZhtQZtPHVSVHPV\npBnWgBpzWzBbWDWvzwpgCvqcmLNTrdLmmrnRLTrmrTdmLd\ndRWWtRGBDPQctQDZ\nCMfnCfFMmTTFVCmfmTLvsnMPZjccHRcPrRPsZQQZPQDRrQ\nfLCffmRTCvRnmTllzVvpdpphNJggpGbJJJpdlh\ncfsfbbWqqZqDScbhGDPDjTPmpVtmmPjPntFD\ndCBBCRQCHNHLMQvrJJJBJLrGPMnjVtPjVMmnjPFmPmMpFn\nHvRGLddgHHvqhwzbWhcgcf\nDHmhhDDhbqrRhvbrHqhPbPvBwwWwTmMGTVwwBMGWVNNwVw\ngSzJjnnjsscfcsZcSfWwQGdMMcWTBcTTMTMw\nnsFCCFZsnSlCFBFflfflsztRPCqvvHPttRbHbhvPrrRr\nSGNRLzpNpgNSNNlWFNwzqJfHfJHBtBdJhBJrHd\nbQnjPTnjVdZtPPrfLP\nTTnTccLnjGFcDNggFl\nlBJmNzJlzmmQBlzgVVjLWRDfLjRsRLWWRS\nvTMvTvtrfdhrrrPTdZwTTwtDqSSnWFWDFMMsRssjjsRqWD\nZpbvHbZddtbrdrdhcBmmpGQfBQgJNcmz\nqsmhTmTVcDdcffhPhPvvzFhF\nBNNlJbjWBWjtRtNljbmBBCpFzPlFPgpPfwFnlffnlPgg\nJtBmmrrrRbDSrVqDqVSD\nVmSgpSLgJjVDMrFrmMlfFmsG\nbZWhZbzWcCwTWPRCwwwSPQzwMHnflHnGsMGnTrsflGMnlfTF\nCqWhWqWCCWRRZQcLqDLpVDDLNStpgD\nJwzTVzzcLzVJVVlJpVTwzGcrWhFjqsBjCjQFjWcCCjCjBF\nMDSNQMtbSSnSbgbRDvnRNgvhmrqrjBCBtmCrCCWFqthhWm\nbgMfNSSNZTwZQddGJZ\njjPgbFjjStjjPcSbrbtpvNrGnGDvBnMGvNDNGG\nLwdZwsTdWTTmwDNCNppGBsnpBR\nmWmHwZWhTTJWHBdQQWBjcFczSgjlSftjbtQPzg\nfCBlrffzlCzcmfLDlfgRRnHScsHvRSQHMQvs\nLthpZqtpVThZhGJtqTFvHsVnvsvMsggjHQjgQH\nZWFWGTLTWBNCWfDfmD\nBpFqJrpcZZBDhDsNqMHhRG\nzwlzPdmzPLhwvhMgsHnN\nmPlWjlQfQjjllWtjQCWzCrBFJFTBcSNcJbbZfcZJSb\nFpzNFTThBDChnnzNBCBNDzWGndgWqbJWVGqmPbJqQgQm\nHQRctcvwgddVcJGd\nLwRMZLjQfSRjFNzFSrhNsThS\nWgRWVLWhFqgqgcgWHqLRWHVRbbbNwBmtBcNcwdwwBNwBzwBN\npSfssjDSrSvJpNJCztbJBtMNbt\nTzsvGGnjGPsPjSTpDrPfPDSHhWqLgZZVHVhZZZZVQQFLnZ\nsHjtPjQTtDbsfrrqWR\nZmccchvlvSvvZNMVNhvBLWRJJblWJWJlJfwHbwlL\nhMMBzSMppVSzSNNmNgHjPgGPFTCpTTgTgG\nrPQpCPPCQQZdcFhcZgzVJgwt\nvDBSHmvHSSMlDWWmljnHBvFwzzcrwhVSJwVFtzcJJghw\nbmmrsrsbsvNdCTdbPTdb\nNgzBnsBNnfjgNvvfvWbtShSSFSMLJMFjjbPh\nCCcRHdlQrQPLTJPLGP\nHrDlRcqcDJCCDJHlcplrDJDfgfzBWWNZfvsnNqWwngZWwW\nTggFVbjVTVzRwFFjjqBBqpzNztqcQqNNqN\nSnZPrWndmShSZSPsnSLsJhpMQpcJtNqBClltqctC\nmfWsGdnZZWmZmrLSfsrnmPggwtggRgGTVHvRwgFDjTGT\nwQMZFQwppbPHPbLQJsgQNJJmBnds\nqrSGvRRCvTzTDNnhNgmCgdBm\nqzRrcRlGjvvzlzrvjcGqSSzMHWwVdPMWFpFMHMHWlPWMVV\nBccsFzrBcsfpccccgFmQqlGNqCTLTlQnqgLlRG\nMZbVSMddddSPPtdHPVJPJdTllqLNLGGTNCCRhTnHTQHh\nDMwtbVZDZbSbpprcpccppwrq\nbSZTdNqFjjzjqQMQ\nWtRztLsWJpPLzrsMDlDQjMhVMC\npcgHRpHmWPJgLRzBJHBPPRBfvvfGNGvvFwfvSvfTmNNZfN\nRjvBljWTTWTlqmBvHjGptRgccZcbPtcttbpzbn\nVhDSDdJLJpSNNVVznPzzzSzcZFngZt\nLsMdQNVMHsBHjqps\nrSPSLTnSCClfSFCR\nMwtZgwNBzzTjzZMbbmjNtwmBcRvFqQllqtQRlFRVqRqVVcvq\nTsMhZsjNjBbTbBbwZLpDnHdDGdHWnpGHnh\nLfdssTFBjFHSwlhzCcZZgMMfMhZZ\nDmtDvrpmNStVvqpPczrZMMhZhhChCC\nvJtJpQWvNVDtJFbHlJSlBbSF\nPgvHLbcgRcGGHzRvgGgchBzsCZnmNZmZddrCrvdddZCZrF\nJQBMjlStJrQsZFrNCZ\nJSJTlqMtjptlplSSqJVDBqphwhhwHRPRggGbGzHbgzVRPH\npBsztsZdBsnWhntVnhtVTqTWNQlGGTGGFFlQFlTl\nfDvLSMcbDbfMrGqFqSGwSQPzqz\nzjcvLMMvffLjgggzfjjJCCLcdBtRphddBmmZBpCZZpZpmmhs\ngmmSDplcPHDfHDlbVNrtCtCCNqHvTn\nQGwJjzdPMzJhFLwnbvMqrTVCCMnvMv\nLQQZdGjGdJhFBFQGjLGBJzzsBSWcPflllcfmDmfBsmBWPs\nsMppbLDRMQbrTDTJjwcqnfnjwwnw\nCgmFgSPHPzHgdmJWZZFzCzZZcVnGGnttWtVVVnccfjVqwVff\nPhCChPSNgPgPJhPHhFZgsDNRspsvMNQLRvNDvpbD\npHnVnlRGVpfgpfgCpCTz\nLCNQPqZCqNSSZCStzPgTmztwPfzwzT\ndbSqhjhqQhNLQLFjLjGvFcRnCcsvRVvvsFnG\nQTdnDTDQbCnMdbqdwSmJBljFJZhttJZMSh\nHfNfLNzGLsgWBpGJthlZFBSB\nssRPHPfNsWHzZZvrvHfgLzNwnbbVVRwwRbVVcqDTddCVdD\nZhZBrJssjrNsbRtWpjwjlmlm\nqTfHzGTfTGqqLGMdCCRcmmRRZcbPMccWmcRw\ndVCZdDHdGHQhBVNJSsBhBF\nNsplbGDbblHcbCpDlDGDPlPpJjdrVjgrvHnghvVdJrJdvvdn\ntQFMZNWSmWFQRzQSwtzFmwFFJdVBghVrnBjVjBgrvVjMvrhJ\nFFRmFZZRzQRmFLQSZZWQWFCPCNGcTCpGpfGfLTpblpff\ndnhQHqQCnqWwNQCwCRRdJjjJVVPmVVJsJP\nLccFRDgfMgLFBJVlmVVmgjrPzZ\npvfGpRpSpTnTQbvbTv\nnwNlWwhWwNmJvQQdzdzZGMqDzn\nrcVscPfrLcfvjTFcQDqGdZqMzMSHZHjS\nLsfbbFcvVgRRblJRNR\nRmrrlmltcffhllfl\nDDZMMMFZVsFsWZDSHhPPfgQbPPnQgcHctf\nzGMGSBVDWCrvwjtBvm\nDCZHwdDwNNGNZDZCjjtpTHLvtlgLbRLttlTL\nBzPzBJffJJQgLlRgGztQ\nPJffcJhJfNNSwFhGZC\nblplfHbwZSfbcbwSbfVSHDHcNvdrvrWsCrvWVCRWnvNndtWW\nhQzBTQLLMBWBsnsnNC\nzMsgTjqTqPpZHbfp\nZLNNLtfZhRJQtpQhNRttZRqcGFcqGBzjrcqclGScFljjcj\nVnvVVPMWHwgJCMvwdcGFdFrGcwzGBG\nWHgPJJvWVTgnvgvTHmWCHmsNZRtNRDZpfZQffZZssR\nrZgMFMVVjGbVSqZbhftLRDmCGRCNDCtm\ncdddQzdWsWnQvzscnfRHmfnDNtLNChRmfH\nzplDQdDzwszlDsWdPcldzMFFrFrBFgpqVBZgSgZFrF\ngbzfbTvbJgbvzvTvJvJmzvjcBBQSfWDLCSBQQfLZWSCdBHHD\nGhnMhsGrMNPPwnwsRPNsFCZDWHZdWBWHdrZLdCHBBC\nPsnGsssGNsNRFsLGwMVNccJVmbjcjJblbzTVjlTz\nRfBqNfVmPLTTTVRZMMBWjlMvBgbbMs\nrHJzDwJdHzQgbMQlWMhd\nHtJrpCcHflLPFfpq\nSSGtmjQFStDbQbqGWJNnpZwgPsZjnJNNfZ\nRdClRMhlldHdlvdThNgwfJNRspNwJpwZcN\nCMBLgvvBLhrrBHTCVVLBQrWtbrDGmbtWGtzDQFGb\nZRRCqHpRdztLSqWz\nhRsGjMVccGshPVDVcBmfgFFzggFgfBmWWtSd\nPVjlGhcGJjGPsGMjjDVrMTpRnvRZlHnZNNQbHppTTC\nQjbjWWlndRbwwwQWQdtpTVVZtzRPhHDzThhP\nfFfLsvrLCrmvGlSfLSrlPHThDzTztHVtzDzGtTVh\nfvrgsfccFLLLSvfMCCSWBjdMqdqNWBdBQNnWld\npjGPvvbllvqGvGjwMbpbRmgSmSwtRtShgSSWWQmW\nDffTZLLzFFFTCRJMhWBzhmhgJt\nCVVZLLTTsZTFCnMffMTFHffLVpGpNqGjNbNPljqVPcGNGlcv\nrvJfztqQJqqrqHHwCzClTbBhDBBDrbSgphbVTrrV\nFFGdNWFLGWMmLDbpRwVbgRBp\ndmNGmZjMjQwtHCCw\nMSGbqbqMbbGDhSSGDhLNBPNcrDPPfzfczPfrnv\nrRwsrljslRgslwwgpssCjRtBNvnmPmBmccvmPnmzcP\nCjVjsssJQpTCrCCgHJLMSZbhMhWGZhHG\nJtBGBFGRVGVLLctRttthLFRBDQlDppljJwNQlpHHQqDHbHHN\nszSZTrzdzTSMdzsmsqqQqwdbgDNqgQNjlN\nSzmrlWPrlfPMsMZTPtCVCFRhhvhccLFPvL\nchmbsMDMMcBnGbZBzZGL\nJjjgJrJJggNgtrQSQBLjWBZlGnnB\nrFNrFtFCRNVrrsHmMDcsLqMhMF\nDLMwrBGgrBBDrcBcNBgWhpGhqVhhqSjqqqmjjp\nJfJCZCdtlbZlHHbjWVpPmHWb\nlTtZtnFQCztWFzJflZLcsrLFNDRNBcswcLMM\ntsVttVCBsCcCqPqwvtqNPQjWDDWjzQQWnpJQSrWJJN\nLMRdZvHGgMmZZGGLGLbhLhJpjWrSjndWJpSJrJppJnpj\nRhRgLMlmgMGMFGLlTtcBvwcfFCtVvfFT\nllBBmtncBglfqwsdwsjdbHwQHm\nzGRhPJvFzhvFvMDGFvGPwSWWQpdpHSwSjWjHsWMw\nJGFhDPrLTzhLhvFPzPjLjTzFlBqltnCqqBffcTgfnZfCfCnB\nQWQGNHQBffCNDMPdRTDLPVMN\nhrtlhtzZwJtwwgFgtlJthJJtZMqPVVpLmDVqRDmVPmMPVRTV\nSJSSnJwJlsFFvcHSBbfLQHGL\nzMNVzhNFsdNssmhlvtQvlttBlVGbTt\nwHpFwjHjLFHlwtncTQlnwn\nCCpjpqLCLqJggghqRmFsNRFmPszh\nCTjmprmNcnmCNVQbstnstvbnQv\njqqdGhHgPRdfRRQvfLQffz\nBGgqBhMdgqBHMDDqqMPwgdhSTJNjjmJWWCTCCmwTWZNpmZ\nLqSDFFmdqDBDbbBHWl\ndQcRpgwRQPngBWHbVWht\nvdQMJQCQQvrJNqrTNsSZSmZT\ncqrHcHHFNFPLLNPHLWnHHFHFjvlbZfWjSjBjZfSblhbBSbSf\nVdVTGwTzTwTpMJslvjfsbbZSvnBClj\nnJdGmmTpTTdmNQNNLPPmDFQL\nVcjpTTtpcbThJBTTcjBvSPJzJlvPlwfJrgrgvw\ndmshCNqnqdhmRsCsqCnrNgPPrPfzrNLfSwSgzl\nddQZdFnhsMttFTbDDD\nhLThMTSdfMzzLzTLsFTbwtDvtsFTnttF\npZlNllPWrPCQPQlWNqjrqrjsnfDFbbtbstwswtvDnwtwjt\npCNNQBCClQrplrfHQpQdSRMSVRhJzRchRhGHSh\nRZfVfRnTcPQWZcRVcRNSvljQsSSjNvvNqvss\npwbwgmqJhGlNvvzgMM\npthrhpmthmwhHHpLbbdrJmLWWRPTRZnCnPCPBnWTWTZq\nnzsJJsMjGMMsQFbnNmLnmCfb\nHlllPPTPlWTPDRRDRHcwwhrLLZfQmgmmQCFHvNZCgfggZQ\nlPcNTwNWddGsMSttdjzj\nbTbJZJDVFdqpBZTFTZJprdcsjjGszmjQszcjzDvsgccv\nHHLnhMNCCPhfhCLMlPlnvgGfctscSvtSjGjztQtm\nwWNQMPPMwlPHHPnnRLwWpJbrbbqbdppqJVJdZV\ngpgpNnnrhwBVWFqgjqqF\nZCTsdRbCGZpZzCSGbWmtMBmWtqBBqdjjmq\nLcsTSlplZrJNcQQPvH\nDJDpMcqJDcDddNcJPGcJGFfnfZZmZZfRQZRNmVQVnBNn\nWWThvSSHFshlSsHvgTHLlzBQfVWwmwnnfmRQWnQVRn\nvljlgHjhstHbLhjLjrbPqMGJcJFJCMPrdF\npJlPMpMBrrMcnrBBMMrvdhdgFvmcFdWtmdtftg\nbVVRmTRVTVVSVVVzZZqsggFHWTWtWffWFfWdtHdH\nRjLQDSzmVsjRRZSZQrCMJDPwlnJJnGGrPB\nGRgJtglPGlCrhQQrfW\nvSjvZvZHNBjZSvwjvmvNDqhhFqhHrMhrHpfWqQfhpW\nNBmwDSbZbvsNNBjmZfJzJgbVnGJbzVzPVRtL\nQQZVQCdlVmdZnWmJBrLwSJRdggwdJr\nDqHhPhcpvDqPFjhHjtFPssSJNfSBwBvffrgJwwJLBJbr\njpsHcptHsqtPttsjctpFhGlZwCMlWMmWGCWVQnTMVWmz\nzzvnHjHWSfnvzpnfSRHdgrrsmWmhVrrwwbTrTmsrwm\nNlLNGqqclqlZZCLCGGCPllJhhPJbrmpmrwVshFVsJbwr\nDMLDNCZQCGLQGDtQpGtMjRdfdSRSSBtjtBjfjgjS\nWBBJfjBQJjftGCbttVJptC\nsdlmTHsqNsqpRtGcbWdbnR\nsvNMhmWHNmvmvHZWTvBQDgSSjDFPSBSFPP\nmrlgqncgwHdqWWhRNtRttSvbRwwSvN\njZLCZVZzVcCTcpCDVSBBSbvvRFbfDBSDNS\nVPJVpQjTZLjVLJJQGZTZGcQVghsGlmhshlqnghqrdrgldhlW\nqwGDMqMFWbFbqbDwMgqgnjfnffffcTTjNnpTfBncZZ\nlSdclSltlzPsJlhNNfTQPTmQhpPh\nLtllsscLLLvvJlSzWGqwrDGqvbqMwMGb\nbnfvnnQsVTdHQDmdNN\nfwlttwrfSfLwdGZGmGND\nqlPrjjplfSpjSltfttBBsvgzgbgnggBqWVvC\nHHrBSmBqBHdHCFcQsc\nWqtMDDnMMZhMhcsQVM\nbqtbGDLLTTnRPwvGgBNmNrwvjm\nRwWzWFwBcdSdMgJW\nmrTjVQDQthQvjrvTmggFbbdgSJcJDFgSdg\nphhFtvjNvFvTTvmTHZzlGlzZRZLBlzRp\ncHlZmZmJSHZcTVGmvZVcGVHlNtbDNbtWFWdtlbCWbWtQDFdr\npwfwgRhngPjjtdWdNtFrdFwT\nRTgMpfhBcMJGHqcz\ndmCbpCLQVFmCRddCTFLCgZtWPNBhSNNwZWgWZvSwhN\nrDzGDjJHhhwzThBS\nrJrclsjjsJMJnJMLnbQQQFmRTqLVRT\nTgFTGPtrWHzgCJDz\nfQbfLwbbFbWjHJHWjd\nLvQvwVfQvQhLLLLsmMBfLfBhqchtGFSNSFNqrSqPcqSGttSN\nMsMmFgTVMMgMdFVMhdzWqCCBCWjWqBWqhzzL\nnHfZDlbvcrDpcpcfDJbNJqGLbCjBmjLzJC\nRnDZHwmmTwVMTsMS\nNpdpdnjNCRjBnHRPpBDnhSdSwFFLFdScFFWcFWLd\nstqMrMZtsQMJmMqvrtqMbstQVchPFWgFVVFVwfWJcSSWVSSV\nMQrZzbvMrrrZZtZmstMtMsDRRjPHCGTjBnzpnDHTCGjG\nClGGvDMGMNhNSmFVPbpgFgmFgZPb\nWhTTLWsBBWTcrPpggtQpsQFpVb\nfBRTqWLjTrzDNhMvCSGDzl\njbzjttVzpbWzWVbTtzWzVwPbPPcwDDccccFNFLMFsm\nrlghJZHmCHvHJvRLSNLhhhccNPwcMP\nQffmBZRBGtVTBdTG\nbDRqHwwRpNPnbppn\nFqrlQSQJSVsQrSCmpdPNpcNCcP\njFZjrssjBhrZVhJLLGHfMHfwtqRjMqRTvD\nSMMCTBzFfSRhTThCSMRSzzHnJgqGDHQgGVDnqrqnqqnqcQ\nljvjpWPbrWWtrbmDVDlmnDnqVmgJ\nbNjsNPrNPtswfZzfTSTBwhSM\nhNMNdssdMqdTQchqgNZzHtwmwGHHzmQZGHDH\nJrbJvJrvLrPjrPCVCjRBLPbzfRFZmzwHgFHmGHmwFwzFZR\nrpbrvVjPCBbCJrCSLSPsTlphNncMglcNTMWMql\nfGWGHbrllCCWWllFNPQSZvdPSvdZTffZ\ntqssVjJMJWzWVvSvWS\nqtwMwDWjnRRwssWjngwjjnhhDcCLhhCFHlcmcbCHFmDC\nrFTdFjdRDTTlDWCqvhwLhwZdLS\nQzfJfnfsbsJHMnNmHhVpCZwSQSWqSqVQhS\nnJnczsHzNMmBJnbnbNwnfzJfcDTltllRTgPlFlgPrTDjPRGl\nZLCGDvvJlvGChSPZWPSsZWdRRN\nrQccBwcccnHmQggnVLPLWpgVWPpWzSRs\nfmwTfTHnMBTfJDbfftJLvhlL"))
+(def priorities (seq "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"))
+
+(defn get-parts [rucksack]
+  (let [half (/ (count rucksack) 2)]
+    [(subs rucksack 0 half) (subs rucksack half)]
+    )
+  )
+
+(defn get-distinct [rucksack]
+  (let [parts (get-parts rucksack)
+        p1 (get parts 0)
+        p2 (get parts 1)
+        chars1 (distinct (.toCharArray (str p1)))
+        chars2 (distinct (.toCharArray (str p2)))]
+    (filter (fn [x] (some (fn [y] (= x y)) chars2)) chars1)))
+
+(defn get-priority [c]
+  (+ 1 (.indexOf priorities c)))
+
+(defn get-priority-sum [cs]
+  (apply +
+     (map cs get-priority)))
+
+(defn get-total []
+  (apply +
+     (for [rucksack rucksacks]
+       (get-priority-sum (get-distinct rucksack))
+  )))
+
+(println (get-total))
+
+; Day 3 / #2 =====================================================================================================================
+
+(defn get-groups []
+  (loop [coll [] rem rucksacks]
+    (if (zero? (count rem))
+      coll
+      (recur (conj coll (take 3 rem)) (drop 3 rem))
+      )
+    )
+  )
+
+(def groups (get-groups))
+(println groups)
+
+(defn get-common [group]
+  (let [a (seq (first group))
+        b (seq (second group))
+        c (seq (last group))]
+    (first
+      (filter #(and
+               (some (fn [x] (= x %)) a)
+               (some (fn [x] (= x %)) b)
+               (some (fn [x] (= x %)) c))
+      (flatten (apply seq group)))
+    )))
+
+
+(println (apply + (for [g groups] (get-priority (get-common g)))))
