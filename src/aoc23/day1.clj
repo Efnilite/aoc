@@ -7,10 +7,11 @@
                 (str/split-lines)))
 
 (->> lines
-     (map (fn [line]
-            (let [nums (re-seq #"\d" line)]
-              (Integer/parseInt (str (first nums) (last nums)))
-              )))
+     (map #(->> %
+                (re-seq #"\d")
+                ((juxt first last))
+                (apply str)
+                (Integer/parseInt)))
      (apply +))
 
 ; part 2
@@ -20,10 +21,10 @@
 (def regex (re-pattern (format "(?=(\\d|%s))" (str/join "|" (keys text->int)))))
 
 (->> lines
-     (map (fn [line]
-            (let [nums (->> line
-                            (re-seq regex)
-                            (map last)
-                            (map #(get text->int % %)))]
-              (Integer/parseInt (str (first nums) (last nums))))))
+     (map #(->> %
+                (re-seq regex)
+                (map (comp (fn [x] (get text->int x x)) last))
+                ((juxt first last))
+                (apply str)
+                (Integer/parseInt)))
      (apply +))
