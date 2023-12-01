@@ -1,4 +1,4 @@
-# aoc
+# Advent of Code solutions
 
 Made in the following order:
 
@@ -6,5 +6,3 @@ Made in the following order:
 - 2021
 - 2020
 - 2023
-
-Therefore, my code in the more recent years is worse than in the more distant years.
