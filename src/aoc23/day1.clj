@@ -1,17 +1,19 @@
 (ns aoc23.day1
-  (:require [clojure.string :as str]))
+     (:require [clojure.string :as str]))
 
 ; part 1
 
-(def lines (->> (slurp "resources/aoc23/day1")
-                (str/split-lines)))
+(def lines (inputs/lines 1))
+
+(defn line-to-first-last-numbers [line]
+  (->> line
+       (re-seq #"\d")
+       ((juxt first last))
+       (apply str)
+       (Integer/parseInt)))
 
 (->> lines
-     (map #(->> %
-                (re-seq #"\d")
-                ((juxt first last))
-                (apply str)
-                (Integer/parseInt)))
+     (map line-to-first-last-numbers)
      (apply +))
 
 ; part 2
@@ -20,11 +22,14 @@
 
 (def regex (re-pattern (format "(?=(\\d|%s))" (str/join "|" (keys text->int)))))
 
+(defn line-to-first-last-numbers' [line]
+  (->> line
+       (re-seq regex)
+       (map (comp (fn [x] (get text->int x x)) last))
+       ((juxt first last))
+       (apply str)
+       (Integer/parseInt)))
+
 (->> lines
-     (map #(->> %
-                (re-seq regex)
-                (map (comp (fn [x] (get text->int x x)) last))
-                ((juxt first last))
-                (apply str)
-                (Integer/parseInt)))
+     (map line-to-first-last-numbers')
      (apply +))
