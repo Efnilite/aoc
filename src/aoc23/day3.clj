@@ -31,28 +31,29 @@
                  []
                  (inc x)))))))
 
-(def number->position (->> (inputs/lines 3)
-                           (map-indexed (fn [idx line] (numbers line idx)))
-                           (apply concat)))
+(def number-to-position (->> (inputs/lines 3)
+                             (map-indexed (fn [idx line] (numbers line idx)))
+                             (apply concat)))
 
-(->> number->position
+(->> number-to-position
      (filter (fn [[_ poses]] (some #(next-to-symbol? grid %) poses)))
      (map first)
      (apply +))
 
 ; part 2
 
-(defn numbers-next-to-* [pos grid]
+(defn numbers-next-to [pos grid]
+  "Returns all numbers next to pos"
   (->> grid
        (inputs/grid-adjacent-8 pos)
        (filter (fn [[_ v]] (re-matches #"[0-9]" (str v))))
-       (mapcat (fn [[pos _]] (filter (fn [[_ poses]] (some (partial = pos) poses)) number->position)))
+       (mapcat (fn [[pos _]] (filter (fn [[_ poses]] (some (partial = pos) poses)) number-to-position)))
        (distinct)
        (map first)))
 
 (->> grid
      (filter (fn [[_ v]] (= v \*)))
-     (map (fn [[pos _]] (numbers-next-to-* pos grid)))
+     (map (fn [[pos _]] (numbers-next-to pos grid)))
      (filter #(= (count %) 2))
      (map (partial apply *))
      (apply +))
