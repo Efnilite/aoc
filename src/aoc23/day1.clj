@@ -1,5 +1,6 @@
 (ns aoc23.day1
-  (:require [clojure.string :as str]))
+  (:require [aoc23.inputs :as inputs]
+            [clojure.string :as str]))
 
 ; part 1
 
